@@ -1,16 +1,18 @@
--- ESX = nil 
--- local PlayerData = {}
--- Citizen.CreateThread(function() 
--- 	while ESX == nil do 
--- 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) 
--- 		Citizen.Wait(1) 
--- 	end 
--- 	PlayerData = ESX.GetPlayerData() 
--- end) 
+ESX = nil
+Citizen.CreateThread(function()
+    while ESX == nil do
+        TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+        Citizen.Wait(10)
+    end
+end)
 
 local playerPed = PlayerPedId()
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler("esx:playerLoaded", function(xPlayer)
+	while (ESX == nil) do
+        Citizen.Wait(100)
+    end
+	
     PlayerData = xPlayer	
 	playerPed = PlayerPedId()
 	FreezeEntityPosition(playerPed, false)
