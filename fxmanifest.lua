@@ -24,7 +24,8 @@ exports {
 	"Notify",
 	"Loading",
 	"playAnim",
-	"addProp"
+	"addProp",
+	"itemCount"
 }
 
 dependency "es_extended"

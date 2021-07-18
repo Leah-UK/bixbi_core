@@ -91,3 +91,13 @@ function addProp(ped, prop1, bone, off1, off2, off3, rot1, rot2, rot3, timer)
 	Citizen.Wait(timer)
 	DeleteEntity(prop)
   end
+
+function itemCount(item)
+	if (Config.LindenInventory) then
+		return exports['linden_inventory']:CountItems('items')[item]
+	else
+		ESX.TriggerServerCallback('bixbi_core:itemCount', function(itemCount) 
+			return itemCount
+		end, item)
+	end
+end
