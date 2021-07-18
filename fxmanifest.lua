@@ -27,5 +27,3 @@ exports {
 	"addProp",
 	"itemCount"
 }
-
-dependency "es_extended"

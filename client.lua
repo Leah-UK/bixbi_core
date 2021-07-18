@@ -94,7 +94,7 @@ function addProp(ped, prop1, bone, off1, off2, off3, rot1, rot2, rot3, timer)
 
 function itemCount(item)
 	if (Config.LindenInventory) then
-		return exports['linden_inventory']:CountItems('items')[item]
+		return exports['linden_inventory']:CountItems(item)[item]
 	else
 		ESX.TriggerServerCallback('bixbi_core:itemCount', function(itemCount) 
 			return itemCount
