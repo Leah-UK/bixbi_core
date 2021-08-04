@@ -19,7 +19,7 @@ AddEventHandler("esx:playerLoaded", function(xPlayer)
 end)
 
 RegisterNetEvent('bixbi_core:Notify')
-AddEventHandler("bixbi_core:Notify", function(type, msg, duration)
+AddEventHandler('bixbi_core:Notify', function(type, msg, duration)
 	Notify(type, msg, duration)
 end)
 function Notify(type, msg, duration)
