@@ -18,6 +18,14 @@ AddEventHandler("esx:playerLoaded", function(xPlayer)
 	FreezeEntityPosition(playerPed, false)
 end)
 
+AddEventHandler('esx:onPlayerSpawn', function()
+	playerPed = PlayerPedId()
+	if GetEntityHealth(playerPed) ~=  200 then
+		SetEntityMaxHealth(playerPed, 200)
+		SetEntityHealth(playerPed, 200)
+	end
+end)
+
 RegisterNetEvent('bixbi_core:Notify')
 AddEventHandler('bixbi_core:Notify', function(type, msg, duration)
 	Notify(type, msg, duration)
@@ -36,7 +44,7 @@ function Notify(type, msg, duration)
 end
 
 RegisterNetEvent('bixbi_core:Loading')
-AddEventHandler("bixbi_core:Loading", function(time, text)
+AddEventHandler('bixbi_core:Loading', function(time, text)
 	Loading(time, text)
 end)
 function Loading(time, text)

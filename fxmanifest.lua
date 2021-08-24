@@ -9,6 +9,7 @@ versioncheck 'https://raw.githubusercontent.com/Leah-UK/bixbi_core/main/fxmanife
 
 shared_scripts {
 	'@es_extended/imports.lua',
+	'@pmc-instance/instance.lua',
 	'config.lua'
 }
 

@@ -67,3 +67,28 @@ AddEventHandler('bixbi_core:VersionCheck', function(resourceName, currentVersion
     end
   end)
 end)
+
+local instances = {}
+RegisterServerEvent('bixbi_core:CreateInstance')
+AddEventHandler('bixbi_core:CreateInstance', function(instanceName, number)
+  if (instances[instanceName] ~= nil) then return end
+  instances[instanceName] = instance.new(number)
+end)
+
+RegisterServerEvent('bixbi_core:AddToInstance')
+AddEventHandler('bixbi_core:AddToInstance', function(source, instanceName)
+  if (instances[instanceName] == nil) then return end
+  instances[instanceName]:addPlayer(tonumber(source))
+end)
+
+RegisterServerEvent('bixbi_core:RemoveFromInstance')
+AddEventHandler('bixbi_core:RemoveFromInstance', function(source, instanceName)
+  if (instances[instanceName] == nil) then return end
+  instances[instanceName]:removePlayer(tonumber(source))
+end)
+
+RegisterServerEvent('bixbi_core:GetInstancePlayers')
+AddEventHandler('bixbi_core:GetInstancePlayers', function(instanceName)
+  if (instances[instanceName] == nil) then return end
+  print(instances[instanceName]:getPlayers())
+end)
