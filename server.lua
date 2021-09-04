@@ -3,8 +3,8 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 RegisterServerEvent('bixbi_core:removeItem')
 AddEventHandler('bixbi_core:removeItem', function(item, count)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    xPlayer.removeInventoryItem(item, count)
+  local xPlayer = ESX.GetPlayerFromId(source)
+  xPlayer.removeInventoryItem(item, count)
 end)
 
 ESX.RegisterServerCallback('bixbi_core:itemCount', function(source, cb, item)
@@ -50,20 +50,20 @@ AddEventHandler('bixbi_core:VersionCheck', function(resourceName, currentVersion
     while Config.VersionChecks do
       Citizen.Wait(1000)
       PerformHttpRequest(url, function (errorCode, resultData, resultHeaders)
-          if errorCode ~= 200 then print("Returned error code:" .. tostring(errorCode)) else
-              local data, version = tostring(resultData)
-              for line in data:gmatch("([^\n]*)\n?") do
-                  if line:find('^version ') then version = line:sub(10, (line:len(line) - 1)) break end
-              end         
-              latestVersion = version
-          end
-      end)
-      if latestVersion then 
-          if currentVersion ~= latestVersion then
+        if errorCode ~= 200 then print("Returned error code:" .. tostring(errorCode)) else
+          local data, version = tostring(resultData)
+          for line in data:gmatch("([^\n]*)\n?") do
+            if line:find('^version ') then version = line:sub(10, (line:len(line) - 1)) break end
+          end         
+          latestVersion = version
+          if latestVersion then 
+            if currentVersion ~= latestVersion then
               print(outdated:format(latestVersion, currentVersion))
+            end
           end
-          Citizen.Wait(60000 * 60)
-      end
+        end
+      end)
+      Citizen.Wait(60000 * 60)
     end
   end)
 end)
