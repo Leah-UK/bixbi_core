@@ -6,24 +6,24 @@ Citizen.CreateThread(function()
     end
 end)
 
-local playerPed = PlayerPedId()
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler("esx:playerLoaded", function(xPlayer)
 	while (ESX == nil) do
         Citizen.Wait(100)
     end
 	
-    PlayerData = xPlayer	
-	playerPed = PlayerPedId()
-	FreezeEntityPosition(playerPed, false)
+    PlayerData = xPlayer
+	FreezeEntityPosition(PlayerPedId(), false)
+	TriggerServerEvent('bixbi_core:RemoveFromInstance', GetPlayerServerId(PlayerId()))
 end)
 
 AddEventHandler('esx:onPlayerSpawn', function()
-	playerPed = PlayerPedId()
+	local playerPed = PlayerPedId()
 	if GetEntityHealth(playerPed) ~=  200 then
 		SetEntityMaxHealth(playerPed, 200)
 		SetEntityHealth(playerPed, 200)
 	end
+	TriggerServerEvent('bixbi_core:RemoveFromInstance', GetPlayerServerId(PlayerId()))
 end)
 
 RegisterNetEvent('bixbi_core:Notify')
@@ -103,6 +103,8 @@ function addProp(ped, prop1, bone, off1, off2, off3, rot1, rot2, rot3, timer)
 function itemCount(item)
 	if (Config.LindenInventory) then
 		return exports['linden_inventory']:CountItems(item)[item]
+	elseif (Config.OxInventory) then
+		return exports['ox_inventory']:InventorySearch(2, item)
 	else
 		ESX.TriggerServerCallback('bixbi_core:itemCount', function(itemCount) 
 			return itemCount
