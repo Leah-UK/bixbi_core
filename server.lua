@@ -7,17 +7,21 @@ AddEventHandler('bixbi_core:removeItem', function(item, count)
   xPlayer.removeInventoryItem(item, count)
 end)
 
+RegisterServerEvent('bixbi_core:AddToInstance')
+AddEventHandler('bixbi_core:AddToInstance', function(source, instanceId)
+  SetPlayerRoutingBucket(source, instanceId)
+end)
+
+RegisterServerEvent('bixbi_core:RemoveFromInstance')
+AddEventHandler('bixbi_core:RemoveFromInstance', function(source)
+  if (GetPlayerRoutingBucket(source) ~= 0) then TriggerEvent('bixbi_core:AddToInstance', source, 0) end
+end)
+
 ESX.RegisterServerCallback('bixbi_core:itemCount', function(source, cb, item)
   local xPlayer = ESX.GetPlayerFromId(source)
   local itemCount = xPlayer.getInventoryItem(item).count
   cb(itemCount)
 end)
-
--- RegisterServerEvent('bixbi_core:addItem')
--- AddEventHandler('bixbi_core:addItem', function(item, count)
---   local xPlayer = ESX.GetPlayerFromId(source)
--- 	xPlayer.addInventoryItem(item, count)
--- end)
 
 ESX.RegisterServerCallback('bixbi_core:canHoldItem', function(source, cb, item, count)
   local xPlayer = ESX.GetPlayerFromId(source)
@@ -66,39 +70,4 @@ AddEventHandler('bixbi_core:VersionCheck', function(resourceName, currentVersion
       Citizen.Wait(60000 * 60)
     end
   end)
-end)
-
--- local instances = {}
--- RegisterServerEvent('bixbi_core:CreateInstance')
--- AddEventHandler('bixbi_core:CreateInstance', function(instanceName, number)
---   if (instances[instanceName] ~= nil) then return end
---   instances[instanceName] = instance.new(number)
--- end)
-
--- RegisterServerEvent('bixbi_core:AddToInstance')
--- AddEventHandler('bixbi_core:AddToInstance', function(source, instanceName)
---   if (instances[instanceName] == nil) then return end
---   instances[instanceName]:addPlayer(tonumber(source))
--- end)
-
--- RegisterServerEvent('bixbi_core:RemoveFromInstance')
--- AddEventHandler('bixbi_core:RemoveFromInstance', function(source, instanceName)
---   if (instances[instanceName] == nil) then return end
---   instances[instanceName]:removePlayer(tonumber(source))
--- end)
-
--- RegisterServerEvent('bixbi_core:GetInstancePlayers')
--- AddEventHandler('bixbi_core:GetInstancePlayers', function(instanceName)
---   if (instances[instanceName] == nil) then return end
---   print(instances[instanceName]:getPlayers())
--- end)
-
-RegisterServerEvent('bixbi_core:AddToInstance')
-AddEventHandler('bixbi_core:AddToInstance', function(source, instanceId)
-  SetPlayerRoutingBucket(source, instanceId)
-end)
-
-RegisterServerEvent('bixbi_core:RemoveFromInstance')
-AddEventHandler('bixbi_core:RemoveFromInstance', function(source)
-  if (GetPlayerRoutingBucket(source) ~= 0) then TriggerEvent('bixbi_core:AddToInstance', source, 0) end
 end)
