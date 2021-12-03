@@ -7,9 +7,32 @@ AddEventHandler('bixbi_core:removeItem', function(item, count)
   xPlayer.removeInventoryItem(item, count)
 end)
 
+function addItem(source, item, count, metadata)
+  if (source == nil) then return end
+    
+  if (Config.OxInventory) then
+    local Inventory = exports.ox_inventory:Inventory()
+    if (Inventory.CanCarryItem(source, item, count)) then
+      Inventory.AddItem(source, item, count, metadata)
+    else
+      TriggerClientEvent('bixbi_core:Notify', source, 'error', 'You cannot carry this item')
+    end
+  else
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if (xPlayer.canCarryItem(item, count)) then
+      xPlayer.addInventoryItem(item, count)
+    else
+      TriggerClientEvent('bixbi_core:Notify', source, 'error', 'You cannot carry this item')
+    end
+  end
+end
+exports('addItem', addItem)
+
 RegisterServerEvent('bixbi_core:AddToInstance')
 AddEventHandler('bixbi_core:AddToInstance', function(source, instanceId)
   SetPlayerRoutingBucket(source, instanceId)
+  SetRoutingBucketEntityLockdownMode(instanceId, 'strict')
+  SetRoutingBucketPopulationEnabled(instanceId, false)
 end)
 
 RegisterServerEvent('bixbi_core:RemoveFromInstance')
@@ -44,7 +67,7 @@ AddEventHandler('onResourceStart', function(resourceName)
   end
 end)
 
-RegisterServerEvent('bixbi_core:VersionCheck')
+-- RegisterServerEvent('bixbi_core:VersionCheck')
 AddEventHandler('bixbi_core:VersionCheck', function(resourceName, currentVersion, url)
   if (currentVersion == nil or url == nil) then return end
   Citizen.Wait(10000)

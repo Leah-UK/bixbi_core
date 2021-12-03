@@ -8,10 +8,7 @@ end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler("esx:playerLoaded", function(xPlayer)
-	while (ESX == nil) do
-        Citizen.Wait(100)
-    end
-	
+	while (ESX == nil) do Citizen.Wait(100) end
     PlayerData = xPlayer
 	FreezeEntityPosition(PlayerPedId(), false)
 	TriggerServerEvent('bixbi_core:RemoveFromInstance', GetPlayerServerId(PlayerId()))
@@ -101,13 +98,25 @@ function addProp(ped, prop1, bone, off1, off2, off3, rot1, rot2, rot3, timer)
   end
 
 function itemCount(item)
-	if (Config.LindenInventory) then
-		return exports['linden_inventory']:CountItems(item)[item]
-	elseif (Config.OxInventory) then
-		return exports['ox_inventory']:InventorySearch(2, item)
+	if (Config.OxInventory) then
+		return exports.ox_inventory:Search(2, item)
 	else
-		ESX.TriggerServerCallback('bixbi_core:itemCount', function(itemCount) 
+		ESX.TriggerServerCallback('bixbi_core:itemCount', function(itemCount)
+			while (itemCount == nil) do Citizen.Wait(100) end
 			return itemCount
 		end, item)
 	end
 end
+
+function isWidescreenAspectRatio()
+	local aspectRatio = ESX.Math.Round(GetAspectRatio(true), 2)
+	if (aspectRatio == 1.6) then
+		-- 16:10
+		return true
+	elseif (aspectRatio == 2.33) then
+		-- 21:9
+		return true
+	end
+	return false
+end
+exports('isWidescreenAspectRatio', isWidescreenAspectRatio)
