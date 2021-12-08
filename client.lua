@@ -2,12 +2,12 @@ ESX = nil
 Citizen.CreateThread(function()
     while ESX == nil do
         TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-        Citizen.Wait(10)
+        Citizen.Wait(100)
     end
 end)
 
 RegisterNetEvent('esx:playerLoaded')
-AddEventHandler("esx:playerLoaded", function(xPlayer)
+AddEventHandler('esx:playerLoaded', function(xPlayer)
 	while (ESX == nil) do Citizen.Wait(100) end
     PlayerData = xPlayer
 	FreezeEntityPosition(PlayerPedId(), false)
@@ -73,9 +73,7 @@ function playAnim(ped, animDict, animName, duration, emoteMoving, playbackRate)
 		movingType = 0
 	end
     RequestAnimDict(animDict)
-    while not HasAnimDictLoaded(animDict) do 
-      Citizen.Wait(0) 
-    end
+    while not HasAnimDictLoaded(animDict) do Citizen.Wait(100) end
 
 	local playbackSpeed = playbackRate or 0
     -- TaskPlayAnim(ped, animDict, animName, 1.0, -1.0, duration, movingType, 1, false, false, false)
@@ -85,10 +83,7 @@ end
 
 function addProp(ped, prop1, bone, off1, off2, off3, rot1, rot2, rot3, timer)
 	local x,y,z = table.unpack(GetEntityCoords(ped))
-  
-	if not HasModelLoaded(prop1) then
-	  LoadPropDict(prop1)
-	end
+	if not HasModelLoaded(prop1) then LoadPropDict(prop1) end
   
 	prop = CreateObject(GetHashKey(prop1), x, y, z+0.2,  true,  true, true)
 	AttachEntityToEntity(prop, ped, GetPedBoneIndex(ped, bone), off1, off2, off3, rot1, rot2, rot3, true, true, false, true, 1, true)
@@ -120,3 +115,8 @@ function isWidescreenAspectRatio()
 	return false
 end
 exports('isWidescreenAspectRatio', isWidescreenAspectRatio)
+
+RegisterNetEvent('bixbi_core:UseCommand')
+AddEventHandler('bixbi_core:UseCommand', function(cmd)
+	ExecuteCommand(cmd)
+end)

@@ -54,10 +54,8 @@ end)
 
 ESX.RegisterServerCallback('bixbi_core:illegalTaskBlacklist', function(source, cb)
   local xPlayer = ESX.GetPlayerFromId(source)
-  local result = false
-  if (Config.IllegalTaskBlacklist[xPlayer.job.name]) then
-    result = true
-  end
+  -- var = check (and) true (or) false
+  local result = Config.IllegalTaskBlacklist[xPlayer.job.name] == true and true or false
   cb(result)
 end)
 
