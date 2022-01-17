@@ -120,3 +120,32 @@ RegisterNetEvent('bixbi_core:UseCommand')
 AddEventHandler('bixbi_core:UseCommand', function(cmd)
 	ExecuteCommand(cmd)
 end)
+
+AddEventHandler('bixbi_core:SetClothing', function(Type, Drawable, Texture)
+    -- Requires: https://github.com/ZiggyJoJo/brp-fivem-appearance or https://github.com/pedr0fontoura/fivem-appearance
+    local playerPed = PlayerPedId()
+    Type = string.lower(Type)
+
+    --https://wiki.rage.mp/index.php?title=Clothes
+    if (Type == 'hat') then -- head
+        exports['fivem-appearance']:setPedProp(playerPed, { prop_id = 0, drawable = Drawable, texture = Texture })
+    elseif (Type == 'glasses') then -- glasses
+        exports['fivem-appearance']:setPedProp(playerPed, { prop_id = 1, drawable = Drawable, texture = Texture })
+    elseif (Type == 'mask') then -- masks
+        exports['fivem-appearance']:setPedComponent(playerPed, { component_id = 1, drawable = Drawable, texture = Texture })
+    elseif (Type == 'jacket') then -- tops
+        exports['fivem-appearance']:setPedComponent(playerPed, { component_id = 11, drawable = Drawable, texture = Texture })
+    elseif (Type == 'chain') then -- accessories
+        exports['fivem-appearance']:setPedComponent(playerPed, { component_id = 7, drawable = Drawable, texture = Texture })
+    elseif (Type == 'arm') then -- torso
+        exports['fivem-appearance']:setPedComponent(playerPed, { component_id = 3, drawable = Drawable, texture = Texture })
+    elseif (Type == 'shirt') then -- undershirt
+        exports['fivem-appearance']:setPedComponent(playerPed, { component_id = 8, drawable = Drawable, texture = Texture })
+    elseif (Type == 'leg') then -- legs
+        exports['fivem-appearance']:setPedComponent(playerPed, { component_id = 4, drawable = Drawable, texture = Texture })
+    elseif (Type == 'shoes') then -- shoes
+        exports['fivem-appearance']:setPedComponent(playerPed, { component_id = 6, drawable = Drawable, texture = Texture })
+    elseif (Type == 'armour') then -- body armors
+        exports['fivem-appearance']:setPedComponent(playerPed, { component_id = 9, drawable = Drawable, texture = Texture })
+    end
+end)
