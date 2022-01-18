@@ -2,67 +2,74 @@ ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 RegisterServerEvent('bixbi_core:removeItem')
-AddEventHandler('bixbi_core:removeItem', function(item, count)
-  local xPlayer = ESX.GetPlayerFromId(source)
-  xPlayer.removeInventoryItem(item, count)
+AddEventHandler('bixbi_core:removeItem', function(src, item, count)
+    if (src == nil) then src = source end
+    if (src == nil) then return end
+
+    if (Config.OxInventory) then
+        local Inventory = exports.ox_inventory:Inventory()
+        Inventory.RemoveItem(src, item, count)
+    else 
+        local xPlayer = ESX.GetPlayerFromId(src)
+        xPlayer.removeInventoryItem(item, count)
+    end
 end)
 
 function addItem(source, item, count, metadata)
-  if (source == nil) then return end
+    if (source == nil) then return end
+    if (Config.OxInventory) then
+        local Inventory = exports.ox_inventory:Inventory()
+        if (Inventory.CanCarryItem(source, item, count)) then
+            Inventory.AddItem(source, item, count, metadata)
+        else
+            TriggerClientEvent('bixbi_core:Notify', source, 'error', 'You cannot carry this item')
+        end
+    else
     
-  if (Config.OxInventory) then
-    local Inventory = exports.ox_inventory:Inventory()
-    if (Inventory.CanCarryItem(source, item, count)) then
-      Inventory.AddItem(source, item, count, metadata)
-    else
-      TriggerClientEvent('bixbi_core:Notify', source, 'error', 'You cannot carry this item')
+        if (xPlayer.canCarryItem(item, count)) then
+            xPlayer.addInventoryItem(item, count)
+        else
+            TriggerClientEvent('bixbi_core:Notify', source, 'error', 'You cannot carry this item')
+        end
     end
-  else
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if (xPlayer.canCarryItem(item, count)) then
-      xPlayer.addInventoryItem(item, count)
-    else
-      TriggerClientEvent('bixbi_core:Notify', source, 'error', 'You cannot carry this item')
-    end
-  end
 end
 exports('addItem', addItem)
 
 RegisterServerEvent('bixbi_core:AddToInstance')
 AddEventHandler('bixbi_core:AddToInstance', function(source, instanceId)
-  SetPlayerRoutingBucket(source, instanceId)
-  SetRoutingBucketEntityLockdownMode(instanceId, 'strict')
-  SetRoutingBucketPopulationEnabled(instanceId, false)
+    SetPlayerRoutingBucket(source, instanceId)
+    SetRoutingBucketEntityLockdownMode(instanceId, 'strict')
+    SetRoutingBucketPopulationEnabled(instanceId, false)
 end)
 
 RegisterServerEvent('bixbi_core:RemoveFromInstance')
 AddEventHandler('bixbi_core:RemoveFromInstance', function(source)
-  if (GetPlayerRoutingBucket(source) ~= 0) then TriggerEvent('bixbi_core:AddToInstance', source, 0) end
+    if (GetPlayerRoutingBucket(source) ~= 0) then TriggerEvent('bixbi_core:AddToInstance', source, 0) end
 end)
 
 ESX.RegisterServerCallback('bixbi_core:itemCount', function(source, cb, item)
-  local xPlayer = ESX.GetPlayerFromId(source)
-  local itemCount = xPlayer.getInventoryItem(item).count
-  cb(itemCount)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local itemCount = xPlayer.getInventoryItem(item).count
+    cb(itemCount)
 end)
 
 ESX.RegisterServerCallback('bixbi_core:canHoldItem', function(source, cb, item, count)
-  local xPlayer = ESX.GetPlayerFromId(source)
-  local canHold = xPlayer.canCarryItem(item, count)
-  cb(canHold)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local canHold = xPlayer.canCarryItem(item, count)
+    cb(canHold)
 end)
 
 ESX.RegisterServerCallback('bixbi_core:illegalTaskBlacklist', function(source, cb)
-  local xPlayer = ESX.GetPlayerFromId(source)
-  -- var = check (and) true (or) false
-  local result = Config.IllegalTaskBlacklist[xPlayer.job.name] == true and true or false
-  cb(result)
-end)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    -- var = check (and) true (or) false
+    local result = Config.IllegalTaskBlacklist[xPlayer.job.name] == true and true or false
+    cb(result)
+    end)
 
 AddEventHandler('onResourceStart', function(resourceName)
-  if ( string.find(resourceName, "bixbi_") ) then
-    TriggerEvent('bixbi_core:VersionCheck', resourceName, GetResourceMetadata(resourceName, 'version'), GetResourceMetadata(resourceName, 'versioncheck'))
-  end
+    if ( string.find(resourceName, "bixbi_") ) then
+        TriggerEvent('bixbi_core:VersionCheck', resourceName, GetResourceMetadata(resourceName, 'version'), GetResourceMetadata(resourceName, 'versioncheck'))
+    end
 end)
 
 -- RegisterServerEvent('bixbi_core:VersionCheck')
