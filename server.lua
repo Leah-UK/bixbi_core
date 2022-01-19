@@ -64,7 +64,11 @@ ESX.RegisterServerCallback('bixbi_core:illegalTaskBlacklist', function(source, c
     -- var = check (and) true (or) false
     local result = Config.IllegalTaskBlacklist[xPlayer.job.name] == true and true or false
     cb(result)
-    end)
+end)
+
+ESX.RegisterServerCallback('bixbi_core:jobCount', function(source, cb, job)
+    cb(#ESX.GetExtendedPlayers('job', job))
+end)
 
 AddEventHandler('onResourceStart', function(resourceName)
     if ( string.find(resourceName, "bixbi_") ) then
