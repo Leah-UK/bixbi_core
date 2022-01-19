@@ -38,6 +38,7 @@ exports('addItem', addItem)
 RegisterServerEvent('bixbi_core:AddToInstance')
 AddEventHandler('bixbi_core:AddToInstance', function(source, instanceId)
     SetPlayerRoutingBucket(source, instanceId)
+        if (instanceId == 0) then return end
     SetRoutingBucketEntityLockdownMode(instanceId, 'strict')
     SetRoutingBucketPopulationEnabled(instanceId, false)
 end)
