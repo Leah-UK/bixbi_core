@@ -1,6 +1,5 @@
 Config = {}
 
-Config.Locale = 'en' -- en,
 Config.NotifyType = "mythic_notify" -- Options = t-notify, esx, mythic_notify
 Config.LoadingType = "mythic" -- Options = mythic, pogress, none
 Config.VersionChecks = true -- When true bixbi addons will check for latest versions once per hour.
