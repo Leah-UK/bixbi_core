@@ -92,7 +92,7 @@ function addProp(ped, prop1, bone, off1, off2, off3, rot1, rot2, rot3, timer)
 	DeleteEntity(prop)
   end
 
-  function itemCount(item)
+function itemCount(item)
 	if (Config.OxInventory) then
 		return exports.ox_inventory:Search(2, item)
 	else
@@ -104,9 +104,8 @@ function addProp(ped, prop1, bone, off1, off2, off3, rot1, rot2, rot3, timer)
 end
 exports('itemCount', itemCount)
 
-RegisterNetEvent('bixbi_core:itemCount')
 AddEventHandler('bixbi_core:itemCount', function(item)
-	itemCount(item)
+	return itemCount(item)
 end)
 
 function isWidescreenAspectRatio()
