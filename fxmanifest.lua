@@ -4,7 +4,7 @@ Creation Date:	07/05/2021
 fx_version 'adamant'
 game 'gta5'
 author 'Leah#0001'
-version '1.2.0'
+version '1.2.1'
 versioncheck 'https://raw.githubusercontent.com/Leah-UK/bixbi_core/main/fxmanifest.lua'
 lua54 'yes'
 

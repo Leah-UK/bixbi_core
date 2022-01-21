@@ -92,9 +92,9 @@ function addProp(ped, prop1, bone, off1, off2, off3, rot1, rot2, rot3, timer)
 	DeleteEntity(prop)
   end
 
-function itemCount(item)
+function itemCount(item, metadata)
 	if (Config.OxInventory) then
-		return exports.ox_inventory:Search(2, item)
+		return exports.ox_inventory:Search(2, item, metadata)
 	else
 		ESX.TriggerServerCallback('bixbi_core:itemCount', function(itemCount)
 			while (itemCount == nil) do Citizen.Wait(100) end
@@ -103,9 +103,8 @@ function itemCount(item)
 	end
 end
 exports('itemCount', itemCount)
-
-AddEventHandler('bixbi_core:itemCount', function(item)
-	return itemCount(item)
+AddEventHandler('bixbi_core:itemCount', function(item, metadata)
+	return itemCount(item, metadata)
 end)
 
 function isWidescreenAspectRatio()

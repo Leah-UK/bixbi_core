@@ -4,12 +4,12 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 --[[---------------------------------------------------
 Remove Item
 --]]---------------------------------------------------
-function removeItem(src, item, count)
+function removeItem(src, item, count, metadata)
     if (src == nil) then src = source end
     if (src == nil) then return end
 
     if (Config.OxInventory) then
-        exports.ox_inventory:RemoveItem(src, item, count)
+        exports.ox_inventory:RemoveItem(src, item, count, metadata)
     else 
         local xPlayer = ESX.GetPlayerFromId(src)
         xPlayer.removeInventoryItem(item, count)
@@ -17,8 +17,8 @@ function removeItem(src, item, count)
 end
 exports('removeItem', removeItem)
 RegisterServerEvent('bixbi_core:removeItem')
-AddEventHandler('bixbi_core:removeItem', function(src, item, count)
-    removeItem(src, item, count)
+AddEventHandler('bixbi_core:removeItem', function(src, item, count, metadata)
+    removeItem(src, item, count, metadata)
 end)
 --[[---------------------------------------------------
 Add Item
@@ -48,10 +48,10 @@ end)
 --[[---------------------------------------------------
 Item Count
 --]]---------------------------------------------------
-function itemCount(source, item)
+function itemCount(source, item, metadata)
     if (source == nil) then return end
     if (Config.OxInventory) then
-        local itemCount = exports.ox_inventory:Search(source, 'count', item)
+        local itemCount = exports.ox_inventory:Search(source, 'count', item, metadata)
         if (itemCount == nil) then itemCount = 0 end
 		return itemCount
 	else
@@ -64,8 +64,8 @@ ESX.RegisterServerCallback('bixbi_core:itemCountCb', function(source, cb, item)
     cb(itemCount(source, item))
 end)
 RegisterServerEvent('bixbi_core:sv_itemCount')
-AddEventHandler('bixbi_core:sv_itemCount', function(source, item)
-    return itemCount(source, item)
+AddEventHandler('bixbi_core:sv_itemCount', function(source, item, metadata)
+    return itemCount(source, item, metadata)
 end)
 --[[---------------------------------------------------
 Can Hold Item
