@@ -35,6 +35,9 @@ function Notify(type, msg, duration)
 	elseif Config.NotifyType == "mythic_notify" then
 		if type == '' or type == nil then type = 'inform' end
 		exports['mythic_notify']:DoCustomHudText(type, string.gsub(msg, '(~[rbgypcmuonshw]~)', ''), duration)
+	elseif Config.NotifyType == "okokNotify" then
+		if type == '' or type == nil then type = 'info' end
+		exports['okokNotify']:Alert("", string.gsub(msg, '(~[rbgypcmuonshw]~)', ''), 5000, type)
 	else
 		ESX.ShowNotification(msg)
 	end

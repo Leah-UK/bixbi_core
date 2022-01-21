@@ -1,6 +1,6 @@
 Config = {}
 
-Config.NotifyType = "mythic_notify" -- Options = t-notify, esx, mythic_notify
+Config.NotifyType = "mythic_notify" -- Options = t-notify, esx, mythic_notify, okokNotify
 Config.LoadingType = "mythic" -- Options = mythic, pogress, none
 Config.VersionChecks = true -- When true bixbi addons will check for latest versions once per hour.
 Config.OxInventory = true -- When true, ox inventory related exports will work.
