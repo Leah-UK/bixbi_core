@@ -30,20 +30,24 @@ function addItem(source, item, count, metadata)
         local canCarryItem = Inventory:CanCarryItem(source, item, count)
         if (canCarryItem) then
             Inventory:AddItem(source, item, count, metadata)
+            return true
         else
             TriggerClientEvent('bixbi_core:Notify', source, 'error', 'You cannot carry this item')
+            return false
         end
     else
         if (xPlayer.canCarryItem(item, count)) then
             xPlayer.addInventoryItem(item, count)
+            return true
         else
             TriggerClientEvent('bixbi_core:Notify', source, 'error', 'You cannot carry this item')
+            return false
         end
     end
 end
 exports('addItem', addItem)
 AddEventHandler('bixbi_core:addItem', function(item, count)
-    addItem(source, item, count)
+    return addItem(source, item, count)
 end)
 --[[---------------------------------------------------
 Item Count
@@ -60,8 +64,8 @@ function itemCount(source, item, metadata)
 	end
 end
 exports('sv_itemCount', itemCount)
-ESX.RegisterServerCallback('bixbi_core:itemCountCb', function(source, cb, item)
-    cb(itemCount(source, item))
+ESX.RegisterServerCallback('bixbi_core:itemCountCb', function(source, cb, item, metadata)
+    cb(itemCount(source, item, metadata))
 end)
 RegisterServerEvent('bixbi_core:sv_itemCount')
 AddEventHandler('bixbi_core:sv_itemCount', function(source, item, metadata)
