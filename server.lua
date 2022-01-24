@@ -150,7 +150,7 @@ AddEventHandler('bixbi_core:VersionCheck', function(resourceName, currentVersion
           end
         end
       end)
-      Citizen.Wait(60000 * 60)
+      Citizen.Wait(60000 * 120)
     end
   end)
 end)
