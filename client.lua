@@ -11,7 +11,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 	while (ESX == nil) do Citizen.Wait(100) end
     PlayerData = xPlayer
 	FreezeEntityPosition(PlayerPedId(), false)
-	TriggerServerEvent('bixbi_core:RemoveFromInstance', GetPlayerServerId(PlayerId()))
+	--TriggerServerEvent('bixbi_core:RemoveFromInstance', GetPlayerServerId(PlayerId()))
 end)
 
 AddEventHandler('esx:onPlayerSpawn', function()
@@ -20,7 +20,7 @@ AddEventHandler('esx:onPlayerSpawn', function()
 		SetEntityMaxHealth(playerPed, 200)
 		SetEntityHealth(playerPed, 200)
 	end
-	TriggerServerEvent('bixbi_core:RemoveFromInstance', GetPlayerServerId(PlayerId()))
+	--TriggerServerEvent('bixbi_core:RemoveFromInstance', GetPlayerServerId(PlayerId()))
 end)
 
 RegisterNetEvent('bixbi_core:Notify')
